@@ -17,6 +17,7 @@
 import datetime
 import sys
 from desktop.lib.paths import SAFE_CHARACTERS_URI_COMPONENTS
+from desktop.conf import RAZ
 
 from django.template.defaultfilters import urlencode, stringformat, date, filesizeformat, time
 
@@ -58,9 +59,15 @@ else:
         %endif
         <li>
           <ul id="editBreadcrumb" class="hue-breadcrumbs editable-breadcrumbs" data-bind="foreach: breadcrumbs" style="padding-right:40px; padding-top: 12px" title="${_('Edit path')}">
-            <li data-bind="visible: label.slice(-1) == '/'">
-              <a data-bind="click: show, attr: {'href': '${url('filebrowser:filebrowser.views.view', path=urlencode(''))}' + url}"><span class="divider" data-bind="text: label"></span></a>
-            </li>
+            %if RAZ.IS_ENABLED.get():
+              <li data-bind="visible: label.slice(-1) == '/'">
+                <a><span class="divider" data-bind="text: label"></span></a>
+              </li>
+            %else:
+              <li data-bind="visible: label.slice(-1) == '/'">
+                <a data-bind="click: show, attr: {'href': '${url('filebrowser:filebrowser.views.view', path=urlencode(''))}' + url}"><span class="divider" data-bind="text: label"></span></a>
+              </li>
+            %endif
             <li data-bind="visible: label.slice(-1) != '/'">
               <a data-bind="text: label, click: show, attr: {'href': '${url('filebrowser:filebrowser.views.view', path=urlencode(''))}' + url}"></a><span class="divider">/</span>
             </li>

@@ -20,6 +20,7 @@ import sys
 
 from django.template.defaultfilters import urlencode, stringformat, filesizeformat, date, time, escape
 from desktop.lib.django_util import reverse_with_get, extract_field_data
+from desktop.conf import RAZ
 from django.utils.encoding import smart_str
 
 from filebrowser.conf import ENABLE_EXTRACT_UPLOADED_ARCHIVE
@@ -2489,7 +2490,7 @@ else:
 
 
       $("#editBreadcrumb").click(function (e) {
-        if ($(e.target).is('ul')){
+        if ($(e.target).is('ul') && !window.RAZ_IS_ENABLED){
           $(this).hide();
           $(".hue-breadcrumbs").hide();
           $("#hueBreadcrumbText").show().focus();
